@@ -21,32 +21,18 @@ class StatisticalMethods(object):
                 resp = json_data
                     
                 resp1 = resp['pages'][0]
-                print(resp.keys())
                 resp2 = resp1['questions']
                 
                 j=1
-                """
-                l1 = []
-                l2 = []
-                for j in resp2:
-                    l1.append(j['_id'])
-                    l2.append(j['title'])
-                    
-                df = pd.DataFrame({'list1':l1,'list2':l2})
-                df.to_csv('C:/Users/Siddartha Rao/Desktop/i 94/399_1.csv')
-                """
+                
                 question_with_options = {}
                 for ques in resp2:
                     if ques['type'] == 'multiple':
-                        print('in here,,')
                         question_with_options[ques['_id']] = []
                         ans = (ques['answerConfig'].keys())
                         for each_option in ques['answerConfig']['options']:
-                            #print(ques['answerConfig'][opt][0])
-                            print(each_option['title'])
                             question_with_options[ques['_id']].append(each_option['title'])
-                print('queswithoptions')
-                print(question_with_options)
+
                 # for grid questions                
                 question_with_options_grid = {}
                 for ques in resp2:
@@ -58,42 +44,26 @@ class StatisticalMethods(object):
                         for each_row in ques['answerConfig']['rows']:
                             question_with_options_grid[ques['_id']][(each_row['title']).strip()] = tmp
 
-                print('grid positins')
-                print(question_with_options_grid)
-                #print(question_with_options_grid['58b1b8e563d53c679fd12186']['To gain customer feedback'])
-                print('heeeeee')
-                #print('in request anaysis')
-                # reading sample json :
-                #samp = pd.read_json('F:/projectSurveyAnalysis/QA new output.json')
                 samp=pd.DataFrame(dataSet)
-                
-                #print(samp)
                 one = pd.DataFrame(samp['answers'])
                 # ques_dict_disp maintains display value of option that user selected (for eg, if user selects red option for q1, it stores red )
                 ques_dict_disp = {}
-
                 res = {}
                 # assigning project ID - need to update this as per real time response file
                 res['projectID'] = samp['projectId'][0]
                 # do not have consistency in todatetime and fromdatetime
                 res['fromdatetime'] = from_date
                 res['todatetime'] = to_date
-
                 # do not have 'type of analysis' input from json
                 res['TypeofAnalysis'] = 'QuestionAnalysis'
-
                 res['AnalysisList'] = []
-
                 # code which fetches question and its type . we need this for performing type wise analysis.
-
-                
                 questype = {}
                 for i in range(one.shape[0]):
                     ques_per_person = one['answers'][i]
                     for ques in ques_per_person:
                         questype[ques['questionId']] = ques['question'][0]['type']
-                # ques_name is a dict which stores names of each question :
-                
+                # ques_name is a dict which stores names of each question : 
                 ques_name = {}
                 for i in range(one.shape[0]):
                     ques_per_person = one['answers'][i]
