@@ -23,31 +23,12 @@ class Backend(object):
             requestid = '{:%Y%m%d%H%M%S%f}'.format(datetime.datetime.now())
             hostIP = self.configObject.backendHost
             
-            #requestJSON = json.loads(requestJSON)
-            
-            #projectid = requestJSON['Projectid']
-            #from_date = requestJSON['from_date']
-            #to_date = requestJSON['to_date']
-            
-            #requestJSONdumps = json.dumps(requestJSON)
-            
-            #getRequestURL = "http://" + hostIP + "/projects/" + projectid + "/responses"
-            
-            self.loggerObject.logger.logActivity("INFO", "timeout value " + timeoutParam, __name__)
-            #self.loggerObject.logger.logActivity("INFO", "get Request URL : " + getRequestURL + " - with request id : " + requestid, __name__)
-            #self.loggerObject.logger.logActivity("INFO", "input json : " + requestJSONdumps, __name__)
-            
+            self.loggerObject.logger.logActivity("INFO", "timeout value " + timeoutParam, __name__)       
             if(typeOfAnalysis == 'ComparisonAnalysis'):
                 print("entered..")
                 requestJSON = json.loads(requestJSON)
-                
-            
                 projectid = requestJSON['Projectid']
-                options = requestJSON['compare']
-                #from_date = requestJSON['from_date']
-                #to_date = requestJSON['to_date']
-                
-                
+                options = requestJSON['compare']  
                 data_list = []
                 getRequestURL = "http://" + hostIP + "/projects/" + projectid + "/responses"
                 data_option = []
@@ -74,12 +55,6 @@ class Backend(object):
                         for j in requestJSON['filter']:
                             tmp1["filters"].append(j)   
                     requestJSONdumps1 = json.dumps(tmp1)
-                    print(requestJSONdumps1)
-                    
-                    #resp1 = requests.post(getRequestURL, data=requestJSONdumps1, headers={headerStr1:headerStr1Value,headerStr2:headerStr2Value ,'requestid':str(requestid)}, timeout=float(timeoutParam))
-                    print('hello')
-                    #print(resp1.text)
-                    ######################
                     total_resp = []
                     print('entered.................')
                     
